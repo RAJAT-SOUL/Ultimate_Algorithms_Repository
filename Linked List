@@ -1,0 +1,214 @@
+//Every Function name specifies what it does//
+#include<bits/stdc++.h>
+using namespace std;
+class node
+{
+	public:
+			int data;
+			node * next;
+			node()
+			{
+				this->next=NULL;
+			}
+			node(int data)
+			{
+				this->data=data;
+				this->next=NULL;
+				
+			}
+			node * add_at_end (int data,node*head)
+			{
+				//case 1;- empty 
+				if(head==NULL)
+				{
+					node *temp=new node(data);
+					head=temp;
+							
+				}
+				//case 2:-2 linked list banai hue hai 
+				else
+				{
+					node * temp = head;
+					while(temp->next!=NULL)
+					{
+						temp=temp->next;
+					}
+					temp->next=new node(data);
+								
+				}
+				return head;
+			}
+			node *add_at_front(int data,node *head)
+			{
+				//case 1:-
+				if(head==NULL)
+				{
+					node *temp=new node(data);
+					head=temp;
+							
+				}
+				//case 2:-
+				else
+				{
+					node * temp=new node(data);// node * a= 2
+					temp->next=head;
+					head=temp;
+					
+				}
+				return head;
+				
+			}
+			node *add_at_position(int data,int pos,node* head)
+			{
+				
+				if(head != NULL && pos==0)
+				{
+					head=add_at_front(data,head);
+				}
+				node * temp=new node(data);
+				node * current=head;
+				node * prev=NULL;
+				int i=0;
+				while(i<pos)
+				{
+					prev=current;
+					current=current->next;
+					if(current==NULL)
+					{
+						break;
+					}
+					i++;
+				}
+				temp->next=current;
+				prev->next=temp;
+				return head;
+	
+			}
+			void print(node * head)
+			{
+				auto temp=head;
+				while(temp!=NULL)
+				{
+					cout<<temp->data<<" ";
+					temp=temp->next;
+				}
+				cout<<endl;
+				
+				
+			}
+			int middle_element(node *head)
+			{
+				auto sp=head;
+				auto fp=head;
+				while(fp!=NULL && fp->next!=NULL)
+				{
+					sp=sp->next;
+					fp=fp->next->next;
+				}
+				return sp->data;
+			}
+      ///////////////////////////////////////delete middle////////////////////////////////////////////////////////
+			node* delet_linked_list(auto head)
+			{
+				
+				node* pre=head;
+				head=head->next;
+				if(head==NULL)
+				{
+					delete pre;
+				}
+				while(head!=NULL)
+				{
+					delete pre;
+					pre =head;
+					head=head->next;
+				}
+				
+			}
+			node* delete_middle_linked_list(node * head)
+			{
+				auto sp=head;
+				auto fp=head;
+				node * pre=NULL; // add 1
+				while(fp!=NULL && fp->next!=NULL)
+				{
+					pre=sp;// add 2
+					sp=sp->next;
+					fp=fp->next->next;
+				}
+				pre->next=sp->next; //add 3
+				delete sp; // add 4
+				return head;
+			}
+      //////////////////////////////////////print reverse ll///////////////////////////////////////////////////////////////////////////////////////
+			void print_reverse(node * head)
+			{
+				if(head==NULL)
+				{
+					return;
+				}
+				print_reverse(head->next);
+				cout<<head->data<<" ";
+				
+			}
+      //////////////////////////////////////////reverse ll /////////////////////////////////////////////////////////////////////////////////////////////
+			node *reverse_linked_list(auto head)
+			{
+				node * current=head;
+				node * next=head;
+				node * pre =NULL;
+				while(current!=NULL)
+				{
+					next=current->next;
+					current->next=pre;
+					pre=current;
+					current=next;
+					
+				}
+				return pre;
+			}
+      /////////////////////////////////////////////////////////////////////palindrome////////////////////////////////////////////////////////////////////// 
+			bool palindrome(auto & left ,auto right)
+			{
+				if(right==NULL)
+				{
+					return true;
+				}
+				bool first=palindrome(left,right->next);
+				if(first==false)
+				{
+					return false;
+				}
+				bool second=(right->data==left->data);
+				left=left->next;
+				return second;
+				
+				
+			}
+};
+int main()
+{
+	node* head=NULL;
+	head=head->add_at_end(1,head);
+	head=head->add_at_end(2,head);
+	head=head->add_at_end(3,head);
+	//head=head->add_at_end(3,head);
+	head=head->add_at_end(2,head);
+	head=head->add_at_end(1,head);
+	head->print(head);
+	//cout<<head->middle_element(head)<<endl;
+	
+	//head=head->add_at_front(1,head);
+	//head->print(head);
+	//head=head->add_at_position(3,2,head);
+	
+	//head->print(head);
+	//cout<<head->middle_element(head);
+	//head->print_reverse(head);
+	cout<<endl;
+	head=head->reverse_linked_list(head);
+	head->print(head);
+	cout<<head->palindrome(head,head);
+	
+	
+}
